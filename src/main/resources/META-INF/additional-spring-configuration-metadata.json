@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "file.path.in",
+    "type": "java.lang.String",
+    "description": "A description for 'file.path.in'"
+  },
+  {
+    "name": "file.path.out",
+    "type": "java.lang.String",
+    "description": "A description for 'file.path.out'"
+  },
+  {
+    "name": "file.path.success",
+    "type": "java.lang.String",
+    "description": "A description for 'file.path.success'"
+  },
+  {
+    "name": "file.format",
+    "type": "java.lang.String",
+    "description": "A description for 'file.format'"
+  },
+  {
+    "name": "file.delay.pool",
+    "type": "java.lang.String",
+    "description": "A description for 'file.delay.pool'"
+  }
+]}
