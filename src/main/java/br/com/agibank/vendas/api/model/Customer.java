@@ -16,4 +16,5 @@ public class Customer {
     private String cnpj;
     private String name;
     private String businessArea;
+    
 }

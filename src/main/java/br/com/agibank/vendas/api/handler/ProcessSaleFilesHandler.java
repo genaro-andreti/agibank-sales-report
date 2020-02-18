@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,17 +13,19 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import br.com.agibank.vendas.api.enumeration.DataTypeEnum;
+import br.com.agibank.vendas.api.mapper.CustomerMapper;
+import br.com.agibank.vendas.api.model.Customer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class ProcessSaleFilesHandler {
 	
-    private static final String PROPERTY_IDENTIFIER = "Ã§";
+    private static final String PROPERTY_IDENTIFIER = "ç";
 
     @Value(value = "${file.path.in}")
     private String fileInputPath;
@@ -41,19 +44,26 @@ public class ProcessSaleFilesHandler {
 
     private void processFile(File file) {
         List<String> lines = getFileLines(file);
+        
+        List<Customer> fileCustomers = new ArrayList<>();
+
         for (String line : lines) {
             try (Scanner scan = new Scanner(line).useDelimiter(PROPERTY_IDENTIFIER)) {
-                while (scan.hasNext()) {
-                	if (!ObjectUtils.isEmpty(scan) && scan.hasNext()) {
-                        while (scan.hasNext()) {
-                            log.info(">>>> " + scan.next());
-						}
+            	while (scan.hasNext()) {
+                    String type = scan.next();
+                    DataTypeEnum dataType = DataTypeEnum.fromValue(type);
+                    switch (dataType) {
+                        case CUSTOMER:
+                            fileCustomers.add(CustomerMapper.mapperFromScanner(scan));
+                            break;
+                        default:
+                            log.warn("DataType not found.");
+                            break;
                     }
                 }
                 
-                moveFile(file);
             } catch (NoSuchElementException | IllegalStateException error) {
-                log.error("Error while trying to read file: {}", error.getMessage());
+                log.error("An error occurred while reading the file: {}", error.getMessage());
             }
         }
     }
@@ -71,17 +81,4 @@ public class ProcessSaleFilesHandler {
         return (File file) -> file.getName().endsWith(fileFormat);
     }
     
-    private void moveFile(File file) {
-        File dir = new File(fileSuccessPath);
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        try {
-            file.renameTo(new File(fileSuccessPath.concat("/").concat(file.getName())));
-        } catch (SecurityException | NullPointerException error) {
-            log.error("Unable to move file to Success folder, the file will be excluded.");
-            file.delete();
-        }
-    }
-
 }

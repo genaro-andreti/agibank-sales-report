@@ -6,19 +6,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DataTypeEnum {
-	VENDEDOR("001"),
-	CLIENTE("002"),
-	VENDA("003"),
-	DESCONHECIDO("");
+	SALESMAN("001"),
+	CUSTOMER("002"),
+	SALE("003"),
+	UNKNOW("");
 	
 	private String value;
 	
-    public static DataTypeEnum fromCode(String value) {
+    public static DataTypeEnum fromValue(String value) {
         for (DataTypeEnum dataType : DataTypeEnum.values()) {
             if (dataType.getValue().equalsIgnoreCase(value)) {
                 return dataType;
             }
         }
-        return DESCONHECIDO;
+        return UNKNOW;
     }
 }
