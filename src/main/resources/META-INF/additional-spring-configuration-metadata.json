@@ -23,5 +23,10 @@
     "name": "file.delay.pool",
     "type": "java.lang.String",
     "description": "A description for 'file.delay.pool'"
+  },
+  {
+    "name": "file.delimiter",
+    "type": "java.lang.String",
+    "description": "A description for 'file.delimiter'"
   }
 ]}

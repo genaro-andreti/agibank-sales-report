@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.agibank.vendas.api.handler.ProcessSaleFilesHandler;
+import br.com.agibank.vendas.api.handler.ProcessSalesFilesHandler;
 
 @Component
 public class ProcessFilesSheduler {
 	
 	@Autowired
-	private ProcessSaleFilesHandler processSaleFilesHandler;
+	private ProcessSalesFilesHandler processSaleFilesHandler;
 	
     @Scheduled(fixedDelay = 1000)
     private void handleFiles() {

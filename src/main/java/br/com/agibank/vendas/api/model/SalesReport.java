@@ -17,4 +17,10 @@ public class SalesReport {
     private Integer salesmanQuantity;
     private String mostExpensiveSaleId;
     private String worstSalesman;
+    
+	@Override
+	public String toString() {
+		return "SalesReport [customersQuantity=" + customersQuantity + ", salesmanQuantity=" + salesmanQuantity
+				+ ", mostExpensiveSaleId=" + mostExpensiveSaleId + ", worstSalesman=" + worstSalesman + "]";
+	}
 }
